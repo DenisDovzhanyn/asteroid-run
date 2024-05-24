@@ -42,7 +42,7 @@ public class GameScreen implements Screen {
 
         character = new Rectangle();
         character.x = 400 - 64;
-        character.y = 5;
+        character.y = 80;
         character.width = 32;
         character.height = 32;
 
@@ -94,7 +94,7 @@ public class GameScreen implements Screen {
 
     }
 
-    private void spawnAsteroid(){
+    public void spawnAsteroid(){
         Rectangle asteroid = new Rectangle();
         asteroid.x = MathUtils.random(0, 800-64);
         asteroid.y = 480;
