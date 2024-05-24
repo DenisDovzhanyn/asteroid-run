@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -24,6 +25,7 @@ public class GameScreen implements Screen {
      Texture impactFrame;
      Sound falling;
      Sound impact;
+     Music ingame;
      OrthographicCamera camera;
      Rectangle character;
      Array<Rectangle> asteroids;
@@ -33,6 +35,9 @@ public class GameScreen implements Screen {
 
     public GameScreen (final My2dGame game) {
         this.game = game;
+        ingame = Gdx.audio.newMusic(Gdx.files.internal("ingame.mp3"));
+        ingame.setLooping(true);
+
         camera = new OrthographicCamera();
         camera.setToOrtho(false, 800, 480);
 
@@ -51,7 +56,6 @@ public class GameScreen implements Screen {
 
         asteroids = new Array<Rectangle>();
         spawnAsteroid();
-        impact.play();
     }
 
 
@@ -84,7 +88,7 @@ public class GameScreen implements Screen {
             if (asteroid.y + 64 < 80){
                 ast.remove();
                 this.score++;
-                falling.play();
+                falling.play(0.3f);
                 game.batch.begin();
                 game.batch.draw(impactFrame, asteroid.x, asteroid.y);
                 game.batch.end();
@@ -115,10 +119,13 @@ public class GameScreen implements Screen {
 
 
 
+
     }
 
     @Override
     public void show() {
+        ingame.play();
+        impact.play();
 
     }
 
@@ -151,6 +158,7 @@ public class GameScreen implements Screen {
         impact.dispose();
         game.backGround.dispose();
         impactFrame.dispose();
+        ingame.dispose();
 
     }
 

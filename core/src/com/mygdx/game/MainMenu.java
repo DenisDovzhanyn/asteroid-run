@@ -2,6 +2,8 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -15,6 +17,7 @@ public class MainMenu implements Screen {
     OrthographicCamera camera;
     public Texture clickAnywhere;
     public Rectangle anywhere;
+    Music menuMusic;
     GameScreen menu;
 
     public MainMenu(final My2dGame game){
@@ -30,11 +33,14 @@ public class MainMenu implements Screen {
         anywhere = new Rectangle();
         anywhere.width = 200;
         anywhere.height = 100;
+        menuMusic = Gdx.audio.newMusic(Gdx.files.internal("menu.mp3"));
+        menuMusic.setLooping(true);
 
     }
 
     @Override
     public void show() {
+        menuMusic.play();
 
     }
 
@@ -85,6 +91,8 @@ public class MainMenu implements Screen {
 
     @Override
     public void dispose() {
+        clickAnywhere.dispose();
+        menuMusic.dispose();
 
     }
 }
