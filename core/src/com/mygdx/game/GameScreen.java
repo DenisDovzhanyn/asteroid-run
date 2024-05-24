@@ -37,6 +37,7 @@ public class GameScreen implements Screen {
 
         playerImage = new Texture("facingrightandbottom.png");
         asteroidImage = new Texture("asteroid.png");
+        game.backGround = new Texture("background.png");
         falling = Gdx.audio.newSound(Gdx.files.internal("falling.wav"));
         impact = Gdx.audio.newSound(Gdx.files.internal("impact.wav"));
 
@@ -57,6 +58,7 @@ public class GameScreen implements Screen {
         camera.update();
         game.batch.setProjectionMatrix(camera.combined);
         game.batch.begin();
+        game.batch.draw(game.backGround,0,0);
         game.font.draw(game.batch, "Asteroids dodged:" + score, 0, 480);
         game.batch.draw(playerImage, character.x, character.y);
         for (Rectangle asteroid: asteroids){
@@ -74,8 +76,8 @@ public class GameScreen implements Screen {
 
         for (Iterator<Rectangle> ast = asteroids.iterator(); ast.hasNext();){
             Rectangle asteroid = ast.next();
-            asteroid.y -= 200 * Gdx.graphics.getDeltaTime();
-            if (asteroid.y + 64 < 0){
+            asteroid.y -= 300 * Gdx.graphics.getDeltaTime();
+            if (asteroid.y + 64 < 80){
                 ast.remove();
                 this.score++;
                 falling.play();
@@ -85,6 +87,7 @@ public class GameScreen implements Screen {
             {
                 dispose();
                 if (score > Integer.parseInt(game.getHighScore())) game.setHighScore(score);
+                game.setScreen(new MainMenu(game));
 
             }
         }
@@ -139,6 +142,8 @@ public class GameScreen implements Screen {
         playerImage.dispose();
         falling.dispose();
         impact.dispose();
+        game.backGround.dispose();
+
     }
 
 }

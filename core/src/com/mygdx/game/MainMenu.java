@@ -58,7 +58,6 @@ public class MainMenu implements Screen {
                 dispose();
             }
         if (menu.character.x < MathUtils.random(32, 750)) menu.character.x += 200 * Gdx.graphics.getDeltaTime();
-        else
         if (menu.character.x > MathUtils.random(32, 750)) menu.character.x -= 200 * Gdx.graphics.getDeltaTime();
 
 
