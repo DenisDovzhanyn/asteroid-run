@@ -21,6 +21,7 @@ public class GameScreen implements Screen {
 
      Texture playerImage;
      Texture asteroidImage;
+     Texture impactFrame;
      Sound falling;
      Sound impact;
      OrthographicCamera camera;
@@ -37,6 +38,7 @@ public class GameScreen implements Screen {
 
         playerImage = new Texture("facingrightandbottom.png");
         asteroidImage = new Texture("asteroid.png");
+        impactFrame = new Texture(Gdx.files.internal("impactframe.png"));
         game.backGround = new Texture("background.png");
         falling = Gdx.audio.newSound(Gdx.files.internal("falling.wav"));
         impact = Gdx.audio.newSound(Gdx.files.internal("impact.wav"));
@@ -49,6 +51,7 @@ public class GameScreen implements Screen {
 
         asteroids = new Array<Rectangle>();
         spawnAsteroid();
+        impact.play();
     }
 
 
@@ -65,13 +68,14 @@ public class GameScreen implements Screen {
             game.batch.draw(asteroidImage, asteroid.x, asteroid.y);
         }
         game.batch.end();
+
         if (Gdx.input.isKeyPressed(Input.Keys.A)) character.x -= 200 * Gdx.graphics.getDeltaTime();
         if (Gdx.input.isKeyPressed(Input.Keys.D)) character.x += 200 * Gdx.graphics.getDeltaTime();
         if (character.x > 800 - 32) character.x = 800 - 32;
         if (character.x < 0) character.x = 0;
-        if (TimeUtils.nanoTime() - lastAsteroidTime > 1000000000){
+        if (TimeUtils.nanoTime() - lastAsteroidTime > 200000000){
             spawnAsteroid();
-            impact.play();
+
         }
 
         for (Iterator<Rectangle> ast = asteroids.iterator(); ast.hasNext();){
@@ -81,6 +85,9 @@ public class GameScreen implements Screen {
                 ast.remove();
                 this.score++;
                 falling.play();
+                game.batch.begin();
+                game.batch.draw(impactFrame, asteroid.x, asteroid.y);
+                game.batch.end();
 
             }
             if (asteroid.overlaps(character))
@@ -143,6 +150,7 @@ public class GameScreen implements Screen {
         falling.dispose();
         impact.dispose();
         game.backGround.dispose();
+        impactFrame.dispose();
 
     }
 
